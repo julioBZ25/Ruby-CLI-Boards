@@ -1,7 +1,11 @@
 require_relative "store"
+require 'terminal-table'
+require_relative "prompt" # enlazas el archivo prompt con tu archivo actual
 
 class ClinBoards
   attr_reader :store, :boards
+
+  include Prompter # llamar a modulo
 
   def initialize(filename = "store.json")
     # Complete this
@@ -13,13 +17,9 @@ class ClinBoards
     # Complete this
     # prompt welcome 
     # prompt Tabla - Clin Boards
-    # prompt menu
-    p @store.boards
-    puts "======================================"
-    puts "create       show ID           update ID          delete ID           exit"
-    print "> "
-    action, id = gets.chomp.split
-    # action, id = menu
+    print_boards
+
+    action, id = menu (:board)
     until action == "exit"
       case action
       when "create" then create_board
@@ -27,11 +27,8 @@ class ClinBoards
       when "update" then update_board(id)
       when "delete" then puts "delete ID"
       end
-      p @store.boards
-      puts "======================================"
-      puts "create       show ID           update ID          delete ID           exit"
-      print "> "
-      action, id = gets.chomp.split
+      print_boards
+    action, id = menu (:board)
     end
   end
 
