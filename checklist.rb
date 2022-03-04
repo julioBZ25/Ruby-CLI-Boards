@@ -1,9 +1,11 @@
 require 'json'
 
 class Checklist
-  def initialize(title, completed)
-    @title = title
-    @completed = completed
+  attr_reader :title, :completed
+  
+  def initialize(task)
+    @title = task[:title]
+    @completed = task[:completed]
   end
 
   def to_json(options = nil)
