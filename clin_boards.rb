@@ -33,13 +33,9 @@ class ClinBoards
     end
   end
 
-  def delete_board(id)
-    @store.remove_board(id)
-  end
-
   def show_list(id)
     found_board = @store.find_board(id)
-    #print_lists(found_board)
+    print_lists(found_board)
     action, id = menu(:list)
     until action == "back"
       case action
@@ -53,8 +49,13 @@ class ClinBoards
       else
         puts "Invalid option!"
       end
+      print_lists(found_board)
       action, id = menu(:list)
     end
+  end
+
+  def delete_board(id)
+    @store.remove_board(id)
   end
 
   def create_board
@@ -72,7 +73,7 @@ class ClinBoards
   def create_card(found_board)
     card_data = forms("card", found_board)
     card = Card.new(card_data)
-    @store.append_card(found_board, card_data, card)
+    p @store.append_card(found_board, card_data, card)
   end
 
   def update_board(id)
@@ -107,7 +108,8 @@ class ClinBoards
       print "Title: "
       title = gets.chomp
       print "Members: "
-      members = gets.chomp.delete!(' ').split(',')
+      members = gets.chomp.delete(' ')
+      p members
       print "Labels: "
       labels = gets.chomp
       print "due_date: "

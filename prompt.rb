@@ -1,21 +1,6 @@
 require 'terminal-table'
 
 module Prompter
-  def main_menu
-    puts "create | show ID | update ID | delete ID | exit"
-    print "> "
-    action, id = gets.chomp.split
-    [action, id]
-  end
-
-  def board_form
-    print "Name: "
-    name = gets.chomp
-    print "Description: "
-    description = gets.chomp
-    { name: name, description: description }
-  end
-
   def print_boards
     table = Terminal::Table.new
     table.title = "CLIn Boards"
@@ -26,9 +11,24 @@ module Prompter
     end
     puts table
   end
-end
 
-def menu(opcion)
+  def print_lists(found_board)
+    title = found_board.lists.map { |list| list.name } # [Todo, in progress, ...]
+    headings = ["ID", "Title", "Members", "Labels", "Due Date", "Checklist"]
+    rows = found_board.lists.map { |list| list.cards.map { |card| [card.id, card.title, card.members.join(', '), card.labels.to_s, card.due_date, card.checklist.size] } }
+    
+    (0...title.length).each { |i| print_list(title[i], headings, rows[i])}
+  end
+  
+  def print_list(title, headings, rows)
+      table = Terminal::Table.new
+      table.title = title
+      table.headings = headings
+      table.rows = rows
+      puts table
+  end
+
+  def menu(opcion)
     option = {board: ["create", "show ID", "update ID", "delete ID", "exit"],
     list: ["create-list", "update-list LISTNAME", "delete-list LISTNAME"],         
     cards: ["create-card", "checklist ID", "update-card ID", "delete-card ID", "back"],
@@ -48,3 +48,6 @@ def menu(opcion)
     end
     gets.chomp.split
   end
+end
+
+
