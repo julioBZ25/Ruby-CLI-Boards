@@ -5,7 +5,11 @@ class Checklist
   
   def initialize(task)
     @title = task[:title]
-    @completed = task[:completed]
+    if task[:completed].nil?
+      @completed = false
+    else
+      @completed = task[:completed]
+    end
   end
 
   def to_json(options = nil)
@@ -15,5 +19,4 @@ class Checklist
   def toggle
     @completed = true unless @completed
   end
-
 end
