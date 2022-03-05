@@ -6,13 +6,12 @@ class Card
   @@id_sequence = 0
   
   def initialize(card)
-    #set(id)
-    @id = card[:id]
+    set_id(card[:id])
     @title = card[:title]
     @members = card[:members]
     @labels = card[:labels]
     @due_date = card[:due_date]
-    @checklist = card[:checklists].nil? ? [] : card[:checklists].map { |task| Checklist.new(task)}
+    @checklist = card[:checklist].nil? ? [] : card[:checklist].map { |task| Checklist.new(task)}
     
   end
 
