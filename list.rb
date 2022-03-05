@@ -14,8 +14,16 @@ class List
     JSON.parse(File.read(@filename), symbolize_names: true)
   end
 
+  def to_json(options = nil)
+    {id: @id, name: @name, cards: @cards}.to_json
+  end
+
   def update(data)
-    @name = data unless data.empty?
+    @name = data[:name] unless data[:name].empty?
+  end
+
+  def push_card(found_card)
+    @cards << found_card
   end
 
   def set_id(id)

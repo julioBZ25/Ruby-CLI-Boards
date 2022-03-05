@@ -13,11 +13,18 @@ module Prompter
   end
 
   def print_lists(found_board)
-    title = found_board.lists.map { |list| list.name } # [Todo, in progress, ...]
+    title = found_board.lists.map { |list| list.name }
     headings = ["ID", "Title", "Members", "Labels", "Due Date", "Checklist"]
-    rows = found_board.lists.map { |list| list.cards.map { |card| [card.id, card.title, card.members.join(', '), card.labels.to_s, card.due_date, card.checklist.size] } }
-    
+    rows = found_board.lists.map { |list| list.cards.map { |card| [card.id, card.title, card.members.join(', '), card.labels.join(', '), card.due_date, task(card.checklist)] } }
+    p rows
+
     (0...title.length).each { |i| print_list(title[i], headings, rows[i])}
+  end
+
+  def task(checklist)
+    i = 0
+    checklist.each { |task| i += 1 if task.completed  }
+    return "#{i}/#{checklist.size}"
   end
   
   def print_list(title, headings, rows)
@@ -26,6 +33,15 @@ module Prompter
       table.headings = headings
       table.rows = rows
       puts table
+  end
+
+  def print_checklist(found_card)
+    puts "Card: #{found_card.name}"
+    task = found_card.checklist.map { |task| [task.title, task.completed] }
+    (0...found_card.checklist.size).each do |i|
+      print task[i][1] ? "[x] " : "[ ] "
+      puts "#{i + 1}. #{task[i][0]}"
+    end
   end
 
   def menu(opcion)
