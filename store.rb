@@ -1,7 +1,7 @@
 require_relative "board"
-require 'json'
+require "json"
 
-class Store 
+class Store
   attr_reader :boards
   
   def initialize(filename)
@@ -13,7 +13,7 @@ class Store
     JSON.parse(File.read(@filename), symbolize_names: true).map { |board| Board.new(board) }
   end
 
-  def remove_board(id) 
+  def remove_board(id)
     @boards.select! { |board| board.id != id.to_i }
     File.write(@filename, @boards.to_json)
   end
@@ -54,7 +54,7 @@ class Store
   def update_card(list, id, data)
     found_card = find_card(list, id)
     found_card.update(data)
-    list.lists.each do |list|
+    list.lists.each do |lists|
       list.cards.reject! { |card| card.id == id.to_i }
       list.push_card(found_card) if list.name == data[:list]
     end
@@ -74,9 +74,9 @@ class Store
     list.lists.find { |list| list.name == id }
   end
 
-  def find_card(list,id)
+  def find_card(list, id)
     card = list.lists.map { |list| list.cards.find { |card| card.id == id.to_i } }
-    return card[0]
+    card[0]
   end
 
   def remove_list(list, id)
@@ -85,7 +85,7 @@ class Store
   end
 
   def remove_card(list, id)
-    list.lists.each {  |list| list.cards.delete_if { |card| card.id == id.to_i   } }
+    list.lists.each { |list| list.cards.delete_if { |card| card.id == id.to_i } }
     File.write(@filename, @boards.to_json)
   end
 
@@ -94,4 +94,3 @@ class Store
     File.write(@filename, @boards.to_json)
   end
 end
-

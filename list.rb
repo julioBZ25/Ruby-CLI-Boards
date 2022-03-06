@@ -7,7 +7,7 @@ class List
   def initialize(list)
     set_id(list[:id])
     @name = list[:name]
-    @cards =  list[:cards].nil? ? [] : list[:cards].map { |card| Card.new(card) } 
+    @cards = list[:cards].nil? ? [] : list[:cards].map { |card| Card.new(card) }
   end
 
   def load_cards
@@ -15,7 +15,7 @@ class List
   end
 
   def to_json(options = nil)
-    {id: @id, name: @name, cards: @cards}.to_json
+    { id: @id, name: @name, cards: @cards}.to_json
   end
 
   def update(data)
@@ -28,7 +28,7 @@ class List
 
   def set_id(id)
     if id.nil?
-      @id = (@@id_sequence+= 1)
+      @id = (@@id_sequence += 1)
     elsif
       @id = id
       @@id_sequence = id if id > @@id_sequence
