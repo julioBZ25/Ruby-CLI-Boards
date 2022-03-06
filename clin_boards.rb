@@ -1,10 +1,9 @@
 require_relative "store"
-require 'terminal-table'
+require "terminal-table"
 require_relative "prompt"
 
 class ClinBoards
   attr_reader :store, :boards
-
   include Prompter
 
   def initialize(filename = "store.json")
@@ -15,7 +14,7 @@ class ClinBoards
 
   def start
     # Complete this
-    # prompt welcome 
+    # prompt welcome
     # prompt Tabla - Clin Boards
     print_boards
 
@@ -29,7 +28,7 @@ class ClinBoards
       end
 
       print_boards
-    action, id = menu (:board)
+      action, id = menu (:board)
     end
   end
 
@@ -136,37 +135,37 @@ class ClinBoards
     when "board"
       print "Name: "
       name = gets.chomp
-      print "Description: " 
+      print "Description: "
       description = gets.chomp
-      return {name: name, description: description}
+      return { name: name, description: description }
     when "list"
       print "Name: "
       name = gets.chomp
-      return {name: name}
+      return { name: name }
     when "card"
       puts "Select a list: "
-      puts (found_board.lists.map { |list| list.name }).join(' | ') 
+      puts (found_board.lists.map { |list| list.name }).join(" | ")
       print "> "
       list = gets.chomp
       print "title: "
       title = gets.chomp
       print "Members: "
-      members = gets.chomp.delete(' ').split
+      members = gets.chomp.delete(" ").split
       print "Labels: "
-      labels = gets.chomp.delete(' ').split
+      labels = gets.chomp.delete(" ").split
       print "due_date: "
       due_date = gets.chomp
-      return {list: list, title: title, members: members, labels: labels, due_date: due_date}
+      return { list: list, title: title, members: members, labels: labels, due_date: due_date }
     when "checklist"
       print "Title: "
       title = gets.chomp
-      return {title: title}
+      return { title: title }
     end
   end
 
   def menu(opcion)
-    option = {board: ["create", "show ID", "update ID", "delete ID", "exit"],
-    list: ["create-list", "update-list LISTNAME", "delete-list LISTNAME"],         
+    option = { board: ["create", "show ID", "update ID", "delete ID", "exit"],
+    list: ["create-list", "update-list LISTNAME", "delete-list LISTNAME"],
     cards: ["create-card", "checklist ID", "update-card ID", "delete-card ID", "back"],
     checklist: ["add", "toggle INDEX", "delete INDEX", "back"]
     }
@@ -174,7 +173,7 @@ class ClinBoards
     when :list
       puts "List options: #{option[:list][0]} | #{option[:list][1]} | #{option[:list][2]}"
       puts "Card options: #{option[:cards][0]} | #{option[:cards][1]} | #{option[:cards][2]} | #{option[:cards][3]} | #{option[:cards][4]}"
-      print "> "
+      print " > "
       action, list, name = gets.chomp.split
       return action, name.nil? ? "#{list}" : "#{list} #{name}"
     when :board

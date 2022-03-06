@@ -23,7 +23,7 @@ class Board
 
   def set_id(id)
     if id.nil?
-      @id = (@@id_sequence+= 1)
+      @id = (@@id_sequence += 1)
     elsif
       @id = id
       @@id_sequence = id if id > @@id_sequence

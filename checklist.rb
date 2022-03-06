@@ -1,8 +1,7 @@
-require 'json'
+require "json"
 
 class Checklist
   attr_reader :title, :completed
-  
   def initialize(task)
     @title = task[:title]
     if task[:completed].nil?
@@ -13,7 +12,7 @@ class Checklist
   end
 
   def to_json(options = nil)
-    {title: @title, completed: @completed}.to_json
+    { title: @title, completed: @completed }.to_json
   end
 
   def toggle
